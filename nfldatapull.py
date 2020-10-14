@@ -9,7 +9,7 @@ def pull_data():
     df=pd.DataFrame()   
     teams = []
     years = []
-    for i in range(2002, 2020):
+    for i in range(2002, 2004):
         teams = Teams(i)
         for team in teams:
             df = df.append(team.dataframe)
@@ -31,10 +31,20 @@ def pull_data():
     Misc_df
 
     offense = Offense_df.to_dict('records')
-    #defense = Defense_df.to_dict('records')
-    #misc = Misc_df.to_dict('record')
+    defense = Defense_df.to_dict('records')
+    misc = Misc_df.to_dict('record')
 
-    return offense
+    return offense, defense, misc
 
-# x = pull_data()
+x, y, z = pull_data()
 # print(x)
+
+conn = "mongodb://localhost:27017"
+client = pymongo.MongoClient(conn)
+db = client.sportsball
+off = db.offense
+off.insert_many(x)
+defense = db.defense
+defense.insert_many(y)
+# misc = db.misc
+# misc.insert_many(z)

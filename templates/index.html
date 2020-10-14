@@ -7,7 +7,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>        <link rel="stylesheet" type="text/css" href="static/style.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">       
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>     
       </head>
 
     <body>
@@ -130,7 +131,7 @@
                 <!--4th of 9 to 11 Columns-->
                 <div class="col-md-3">
                   <h1>Youtube Channel</h1>
-                  <img src="static/images/galleryimage1.jpg" alt " Youtube Channel">
+                  <div id="plot"></div>
                 </div>
 
 
@@ -213,12 +214,18 @@
                   </div> 
                   
                   <div>
-                    {% for item in nfl %} 
+                    <!-- {% for item in nfl %} 
                     <h3> {{item}} </h3>
                     {% endfor %}
-                      <!-- {{nfl}} -->
+                      {{nfl}} -->
+
                   </div>
-                  
+                  <!-- <div id="plot"></div> -->
+                  <script type="text/javascript"> 
+                  var off = "{{off_db | safe}}"
+                  var def = "{{def_db | safe}}"
+                  var misc = "{{misc_db | safe}}"
+                   </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>              
     <script type="text/javascript" src="static/logic.js"></script>
     
