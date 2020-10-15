@@ -38,6 +38,7 @@ console.log(off_data);
 console.log(def_data);
 console.log(misc_data);
 console.log("hi");
+
 // var mar_of_vic = dict1.map(x => x.margin_of_victory)
 // var pass_comp = dict1.map(x => x.pass_completions)
 

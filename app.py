@@ -37,3 +37,7 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+# "C:\Program Files\MongoDB\Server\4.4\bin\mongod.exe" --dbpath="c:\data\db"
+# "C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
