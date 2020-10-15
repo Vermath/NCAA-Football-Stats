@@ -9,7 +9,7 @@ def pull_data():
     df=pd.DataFrame()   
     teams = []
     years = []
-    for i in range(2002, 2004):
+    for i in range(2002, 2020):
         teams = Teams(i)
         for team in teams:
             df = df.append(team.dataframe)

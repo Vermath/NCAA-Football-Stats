@@ -39,14 +39,21 @@ console.log(def_data);
 console.log(misc_data);
 console.log("hi");
 
-// var mar_of_vic = dict1.map(x => x.margin_of_victory)
-// var pass_comp = dict1.map(x => x.pass_completions)
+var off_data_moe = d3.nest()
+  .key(function(d) { return d.years; })
+  .rollup(function(v) {return d3.mean(v, function(d) {return d.margin_of_victory; }); })
+  .entries(off_data);
 
-// var trace1 = {
-//     x: pass_comp,
-//     y: mar_of_vic,
-//     type: "scatter"
-//   };
+console.log(JSON.stringify(off_data_moe));
 
-// var data = [trace1];
-// Plotly.newPlot("plot", data);
+var mar_of_vic = off_data_moe.map(x => x.value)
+var years = off_data_moe.map(x => x.key)
+
+var trace1 = {
+    x: years,
+    y: mar_of_vic,
+    type: "scatter"
+  };
+
+var data = [trace1];
+Plotly.newPlot("plot", data);
