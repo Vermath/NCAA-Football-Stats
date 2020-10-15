@@ -60,7 +60,7 @@ def greensock():
     misc_list = list(misc_data)
     
     # Return template and data
-    return render_template("plots.html", off_db=off_list, def_db=def_list, misc_db=misc_list)
+    return render_template("greensock.html", off_db=off_list, def_db=def_list, misc_db=misc_list)
 
 
 if __name__ == "__main__":
