@@ -19,7 +19,7 @@ def pull_data():
     df
 
     #offense only df
-    Offense_df = df[['years', 'abbreviation', 'yards', 'margin_of_victory', 'offensive_simple_rating_system', 'pass_attempts', 'pass_completions', 'pass_first_downs', 'pass_net_yards_per_attempt', 'pass_touchdowns', 'pass_yards', 'percent_drives_with_turnovers', 'percent_drives_with_points', 'plays', 'points_contributed_by_offense', 'rank', 'rush_attempts', 'rush_first_downs', 'rush_yards_per_attempt', 'turnovers', 'win_percentage', 'yards_per_play', 'first_downs']]
+    Offense_df = df[['years', 'abbreviation', 'yards', 'margin_of_victory', 'offensive_simple_rating_system', 'pass_attempts', 'pass_completions', 'pass_first_downs', 'pass_net_yards_per_attempt', 'pass_touchdowns', 'pass_yards', 'percent_drives_with_turnovers', 'percent_drives_with_points', 'plays', 'points_contributed_by_offense', 'rank', 'rush_attempts', 'rush_yards','rush_first_downs', 'rush_yards_per_attempt', 'turnovers', 'win_percentage', 'yards_per_play', 'first_downs']]
     Offense_df
 
     #defense only df
@@ -35,16 +35,16 @@ def pull_data():
     misc = Misc_df.to_dict('record')
 
     return offense, defense, misc
+if __name__ == "__main__":
+    x, y, z = pull_data()
+    # print(x)
 
-x, y, z = pull_data()
-# print(x)
-
-conn = "mongodb://localhost:27017"
-client = pymongo.MongoClient(conn)
-db = client.sportsball
-off = db.offense
-off.insert_many(x)
-defense = db.defense
-defense.insert_many(y)
-# misc = db.misc
-# misc.insert_many(z)
+    conn = "mongodb://localhost:27017"
+    client = pymongo.MongoClient(conn)
+    db = client.sportsball
+    off = db.offense
+    off.insert_many(x)
+    defense = db.defense
+    defense.insert_many(y)
+    misc = db.misc
+    misc.insert_many(z)

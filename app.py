@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, jsonify
 from flask_pymongo import PyMongo
 import pymongo
-import nfldatapull
+# import nfldatapull
 from bson.json_util import dumps
 
 app = Flask(__name__)
