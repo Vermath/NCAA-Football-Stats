@@ -1,124 +1,112 @@
-function getPlots(id) {
-//Read samples.json
-    d3.json("samples.json").then (sampledata =>{
-        console.log(sampledata)
-        var ids = sampledata.samples[0].otu_ids;
-        console.log(ids)
-        var sampleValues =  sampledata.samples[0].sample_values.slice(0,10).reverse();
-        console.log(sampleValues)
-        var labels =  sampledata.samples[0].otu_labels.slice(0,10);
-        console.log (labels)
-    // get only top 10 otu ids for the plot OTU and reversing it. 
-        var OTU_top = ( sampledata.samples[0].otu_ids.slice(0, 10)).reverse();
-    // get the otu id's to the desired form for the plot
-        var OTU_id = OTU_top.map(d => "OTU " + d);
-        console.log(`OTU IDS: ${OTU_id}`)
-     // get the top 10 labels for the plot
-        var labels =  sampledata.samples[0].otu_labels.slice(0,10);
-        console.log(`OTU_labels: ${labels}`)
-        var trace = {
-            x: sampleValues,
-            y: OTU_id,
-            text: labels,
-            marker: {
-            color: 'blue'},
-            type:"bar",
-            orientation: "h",
-        };
-        // create data variable
-        var data = [trace];
+// console.log(data);
 
-        // create layout variable to set plots layout
-        var layout = {
-            title: "Top 10 OTU",
-            yaxis:{
-                tickmode:"linear",
-            },
-            margin: {
-                l: 100,
-                r: 100,
-                t: 100,
-                b: 30
+// console.log(nfl_data.slice(1));
+
+function m3(data){
+    // creates list for storing values
+    dict1 = []    
+    frst_split = data.split("}");    
+    frst_split.forEach(function(string) {
+        sec_split = string.split(",");
+        var dict2 = {}
+        sec_split.forEach(function(y){
+            thd_split = y.split(":")
+            if (isNaN(thd_split[1]) === false){
+                thd_split[1] =  parseInt(thd_split[1], 10)
             }
-        };
-
-        // create the bar plot
-    Plotly.newPlot("bar", data, layout);
-        // The bubble chart
-        var trace1 = {
-            x: sampledata.samples[0].otu_ids,
-            y: sampledata.samples[0].sample_values,
-            mode: "markers",
-            marker: {
-                size: sampledata.samples[0].sample_values,
-                color: sampledata.samples[0].otu_ids
-            },
-            text:  sampledata.samples[0].otu_labels
-
-        };
-
-        // set the layout for the bubble plot
-        var layout_2 = {
-            xaxis:{title: "OTU ID"},
-            height: 600,
-            width: 1000
-        };
-
-        // creating data variable 
-        var data1 = [trace1];
-
-    // create the bubble plot
-    Plotly.newPlot("bubble", data1, layout_2); 
+            else if (thd_split[1] !== undefined) {
+            thd_split[1] = thd_split[1].trim();
+            thd_split[1] = thd_split[1].substring(1);
+            thd_split[1]= thd_split[1].substring(0, thd_split[1].length - 1);
+            }
     
-    });
-}  
-// create the function to get the necessary data
-function getDemoInfo(id) {
-// read the json file to get data
-    d3.json("samples.json").then((data)=> {
-// get the metadata info for the demographic panel
-        var metadata = data.metadata;
+            key1 = thd_split[0].trim();
+            key1 = key1.substring(1);
+            key1 = key1.substring(0, key1.length - 1);
+            dict2[key1] = thd_split[1];
+        })
+        dict1.push(dict2) 
+    })
+    return dict1    
+    }
+    
+    off_data = m3(off);
+    def_data = m3(def);
+    misc_data = m3(misc);
+    // var year = nfl_data.map(x => x.years);
+    console.log(off_data);
+    console.log(def_data);
+    console.log(misc_data);
+    console.log("hi");
 
-        console.log(metadata)
+//My name is Betty.  I am a great magician.  Your sock is blue.  Your sock is green.  Yessssssss
+//Greensock tests
+//TweenMax.to('.logo', 1, {scale:0})
 
-      // filter meta data info by id
-       var result = metadata.filter(meta => meta.id.toString() === id)[0];
-      // select demographic panel to put data
-       var demographicInfo = d3.select("#sample-metadata");
-        
-     // empty the demographic info panel each time before getting new id info
-       demographicInfo.html("");
+// sunburst
+off_data_x = off_data.filter(function(d){ return d.years === 2019 })
+console.log(off_data_x)
 
-     // grab the necessary demographic data data for the id and append the info to the panel
-        Object.entries(result).forEach((key) => {   
-            demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");    
-        });
-    });
-}
-// create the function for the change event
-function optionChanged(id) {
-    getPlots(id);
-    getDemoInfo(id);
-}
+test = off_data_x.map(d => d.abbreviation);
+test1 = off_data_x.map(d => d.yards); 
 
-// create the function for the initial data rendering
-function init() {
-    // select dropdown menu 
-    var dropdown = d3.select("#selDataset");
+// set the dimensions and margins of the graph
+var margin = {top: 100, right: 0, bottom: 0, left: 0},
+    width = 460 - margin.left - margin.right,
+    height = 460 - margin.top - margin.bottom,
+    innerRadius = 90,
+    outerRadius = Math.min(width, height) / 2;   // the outerRadius goes from the middle of the SVG area to the border
 
-    // read the data 
-    d3.json("samples.json").then((data)=> {
-        console.log(data)
+// append the svg object
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
 
-        // get the id data to the dropdwown menu
-        data.names.forEach(function(name) {
-            dropdown.append("option").text(name).property("value");
-        });
+ function poop(data) {
 
-        // call the functions to display the data and the plots to the page
-        getPlots(data.names[0]);
-        getDemoInfo(data.names[0]);
-    });
-}
+  // Scales
+  var x = d3.scaleBand()
+      .range([0, 2 * Math.PI])    // X axis goes from 0 to 2pi = all around the circle. If I stop at 1Pi, it will be around a half circle
+      .align(0)                  // This does nothing
+      .domain(data.map(function(d) { return d.abbreviation; })); // The domain of the X axis is the list of states.
+  var y = d3.scaleRadial()
+      .range([innerRadius, outerRadius])   // Domain will be define later.
+      .domain([0, 6904]); // Domain of Y is from 0 to the max seen in the data
 
-init();
+  // Add the bars
+  svg.append("g")
+    .selectAll("path")
+    .data(data)
+    .enter()
+    .append("path")
+      .attr("fill", "#69b3a2")
+      .attr("d", d3.arc()     // imagine your doing a part of a donut plot
+          .innerRadius(innerRadius)
+          .outerRadius(function(d) { return y(d['yards']); })
+          .startAngle(function(d) { return x(d.abbreviation); })
+          .endAngle(function(d) { return x(d.abbreviation) + x.bandwidth(); })
+          .padAngle(0.01)
+          .padRadius(innerRadius))
+
+  // Add the labels
+  svg.append("g")
+      .selectAll("g")
+      .data(data)
+      .enter()
+      .append("g")
+        .attr("text-anchor", function(d) { return (x(d.abbreviation) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+        .attr("transform", function(d) { return "rotate(" + ((x(d.abbreviation) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(d['yards'])+10) + ",0)"; })
+      .append("text")
+        .text(function(d){return(d.abbreviation)})
+        .attr("transform", function(d) { return (x(d.abbreviation) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
+        .style("font-size", "11px")
+        .attr("alignment-baseline", "middle")
+
+};
+
+poop(off_data_x)
+
+d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum.csv", function(data) {console.log(data)})
