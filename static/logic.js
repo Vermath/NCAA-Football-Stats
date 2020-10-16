@@ -33,12 +33,15 @@ return dict1
 off_data = m3(off);
 def_data = m3(def);
 misc_data = m3(misc);
-
 // var year = nfl_data.map(x => x.years);
 console.log(off_data);
 console.log(def_data);
 console.log(misc_data);
 console.log("hi");
+
+var off_data_x = off_data_x.filter(function(d){ return d.years == "2019" });
+
+console.log(JSON.stringify(off_data_x));
 
 //Nest function performs a group by on the data and gives us the mean for each year
 // first is passing yards
@@ -123,4 +126,8 @@ var trace4 = {
 
 var data4 = [trace4];
 Plotly.newPlot("plot3", data4);
+
+//My name is Betty.  I am a great magician.  Your sock is blue.  Your sock is green.  Yessssssss
+//Greensock tests
+TweenMax.to('.logo', 1, {scale:0})
 
